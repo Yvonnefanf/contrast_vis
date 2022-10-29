@@ -279,33 +279,33 @@ def login():
     # active_learning_path = 'D:\\datasets\\data\\al'
     # noisy_detection_path = 'D:\\datasets\\data\\anormaly'
 
-    exp_group = ["shuning", "lucy","liuyang", "jiong","ruofan","khurshid","fangzhou","yuyang","jiaxiang","shida"]
-    control_group = ["bob", "yujie","yuhao","nimesha","pang","xinyue","yangming","yufan","tiedong"]
-    with open("./user_list.json", "r") as f:
-        active_learning_path_g = json.load(f)["session_{}".format(session)]
+    # exp_group = ["shuning", "lucy","liuyang", "jiong","ruofan","khurshid","fangzhou","yuyang","jiaxiang","shida"]
+    # control_group = ["bob", "yujie","yuhao","nimesha","pang","xinyue","yangming","yufan","tiedong"]
+    # with open("./user_list.json", "r") as f:
+    #     active_learning_path_g = json.load(f)["session_{}".format(session)]
     
     # Verify username and password
     # if pass return normal_content_path and anormaly_content_path
-    if username == 'admin-e' and password == '123qwe': 
-        con_paths = {"normal_content_path": active_learning_path,"unormaly_content_path":noisy_detection_path}
-        clear_cache(con_paths)
-        return make_response(jsonify({"normal_content_path": active_learning_path, "unormaly_content_path": noisy_detection_path}), 200)
-    elif username == 'admin-c' and password == '123qwe': 
-        con_paths = {"normal_content_path": active_learning_path, "unormaly_content_path": noisy_detection_path}
-        clear_cache(con_paths)
-        return make_response(jsonify({"normal_content_path": active_learning_path, "unormaly_content_path": noisy_detection_path, "isControl":True}), 200)
-    elif username == "tutorial" and password == '123qwe':
-        return make_response(jsonify({"normal_content_path": tutorial_path, "unormaly_content_path": tutorial_path}), 200)
-    elif username in active_learning_path_g.keys() and username in exp_group:
-        a_path = active_learning_path_g[username]
-        con_paths = {"normal_content_path": a_path, "unormaly_content_path": noisy_detection_path}
-        clear_cache(con_paths)
-        return make_response(jsonify(con_paths), 200)
-    elif username in active_learning_path_g.keys() and username in control_group:
-        a_path = active_learning_path_g[username]
-        con_paths = {"normal_content_path": a_path, "unormaly_content_path": noisy_detection_path}
-        clear_cache(con_paths)
-        return make_response(jsonify({"normal_content_path": a_path, "unormaly_content_path": noisy_detection_path, "isControl":True}), 200)
+    if username == 'admin' and password == '123qwe': 
+        # con_paths = {"normal_content_path": active_learning_path,"unormaly_content_path":noisy_detection_path}
+        # clear_cache(con_paths)
+        return make_response(jsonify({"normal_content_path": "/home/yifan/dataset/noisy/20", "unormaly_content_path": "/home/yifan/dataset/resnet18_cifar10"}), 200)
+    # elif username == 'admin-c' and password == '123qwe': 
+    #     con_paths = {"normal_content_path": active_learning_path, "unormaly_content_path": noisy_detection_path}
+    #     clear_cache(con_paths)
+    #     return make_response(jsonify({"normal_content_path": active_learning_path, "unormaly_content_path": noisy_detection_path, "isControl":True}), 200)
+    # elif username == "tutorial" and password == '123qwe':
+    #     return make_response(jsonify({"normal_content_path": tutorial_path, "unormaly_content_path": tutorial_path}), 200)
+    # elif username in active_learning_path_g.keys() and username in exp_group:
+    #     a_path = active_learning_path_g[username]
+    #     con_paths = {"normal_content_path": a_path, "unormaly_content_path": noisy_detection_path}
+    #     clear_cache(con_paths)
+    #     return make_response(jsonify(con_paths), 200)
+    # elif username in active_learning_path_g.keys() and username in control_group:
+    #     a_path = active_learning_path_g[username]
+    #     con_paths = {"normal_content_path": a_path, "unormaly_content_path": noisy_detection_path}
+    #     clear_cache(con_paths)
+    #     return make_response(jsonify({"normal_content_path": a_path, "unormaly_content_path": noisy_detection_path, "isControl":True}), 200)
     else:
         return make_response(jsonify({"message":"username or password is wrong"}), 200)
 

@@ -285,49 +285,11 @@ export const template = html`
     <!-- TSNE Controls -->
     <div data-panel="tsne" class="ink-panel-content">
       <!-- Subject Model Path -->
-      <div class="subject-model-path-editor" style="visibility:hidden;height:0;">
-        <paper-input value="{{subjectModelPathEditorInput}}" label="Model Path"
+      <div class="subject-model-path-editor" style="color:#fff;">
+        <paper-input style="color:#fff;" value="{{subjectModelPathEditorInput}}" label="Model Path"
           on-input="subjectModelPathEditorInputChange">
         </paper-input>
       </div>
-      <!-- Misc Setting -->
-      <!-- <div class="misc-setting-editor">
-    </paper-input>
-    <paper-input
-      value="{{resolutionEditorInput}}"
-      label="Resolution"
-      on-input="resolutionEditorInputChange"
-    >
-    </paper-input>
-</div>-->
-      <!--<div class="slider">
-        <label>Status</label>
-        <div class="two-way-toggle">
-          <span>Indices</span>
-          <paper-toggle-button id="DVI-toggle" checked="{{temporalStatus}}">
-              Search Predicates
-          </paper-toggle-button>
-        </div>
-      </div>-->
-      <!--
-       <div class="two-rows">
-          <div class="row">
-            <button class="run-tsne ink-button" title="Re-run DVI">
-              Run
-            </button>
-            <button class="pause-tsne ink-button" title="Pause DVI">
-              Pause
-            </button>
-          </div> 
-          <div class="row">
-             <button class="previous-dvi ink-button" title="Previous DVI">
-               Previous
-             </button>
-             <button class="next-dvi ink-button" title="Next DVI">
-               Next
-             </button>
-          </div>
-      </div> -->
       <div class="row" style="visibility:hidden;height:0;">
         <button class="previous-dvi ink-button" title="Previous DVI">
           Previous
@@ -373,22 +335,13 @@ export const template = html`
             <td><span class="inv_acc_train">NA</span> </td>
             <td> <span class="inv_acc_test">NA</span></td>
           </tr>
-          <!--<tr>
-              <td>CCR</td>
-              <td><span class="inv_conf_train">NA</span></td>
-              <td><span class="inv_conf_test">NA</span></td>
-            </tr>-->
         </table>
         <p>Accuracy:</p>
         <p>train: <span class="acc_train">NA</span> test: <span class="acc_test">NA</span></p>
       </div>
       <p id="tsne-sampling" class="notice">
       </p>
-      <!--          <p>Projection nn perseverance knn: (train,15): <span class="nn_train_15">NA</span> (test,15): <span class="nn_test_15">NA</span></p>-->
-      <!--          <p>Projection boundary perserverance knn: (train,15): <span class="bound_train_15">NA</span> (test,15): <span class="bound_test_15">NA</span></p>-->
-      <!--          <p>PPR: train: <span class="inv_acc_train">NA</span> test: <span class="inv_acc_test">NA</span></p>-->
-      <!--          <p>CCR: train: <span class="inv_conf_train">NA</span> test: <span class="inv_conf_test">NA</span></p>-->
-      <template is="dom-if" if="[[_showFilter]]">
+      <template is="dom-if" if="[[false]]">
         <h2 style="text-align:center">Train Result Statistics</h2>
         <div class="filter-content">
           <paper-dropdown-menu style="width: 120px" no-animations label="Architecture">
@@ -424,25 +377,9 @@ export const template = html`
         </div>
 
       </template>
-      <table>
-        <caption style="margin-bottom: 10px; font-weight: 600;">
-        <h2>Task Model Accuracy</h2>
-        </caption>
-        <tr>
-          <td>Train Acc</td>
-          <td>Test Acc</td>
-        </tr>
-        <tr>
-          <td><span class="total_acc_train">NA</span></td>
-          <td><span class="total_acc_test">NA</span></td>
-        </tr>
-
-
-
-      </table>
-      <!--<p style="font-weight: 600;">Task Model Accuracy:</p>
-      <p style="font-size:20px;">train: <span class="total_acc_train">NA</span> test: <span
-          class="total_acc_test">NA</span></p>-->
+      <h3>Task Model Accuracy</h3>
+      Train Acc: <span class="total_acc_train">NA</span><br/>
+      Test Acc: <span class="total_acc_test">NA</span>
     </div>
     <p id="tsne-sampling" class="notice">
     </p>

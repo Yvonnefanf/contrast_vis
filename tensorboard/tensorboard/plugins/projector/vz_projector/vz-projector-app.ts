@@ -30,8 +30,8 @@ class VzProjectorApp extends PolymerElement {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 24px;
-        height: 60px;
+        padding: 0 20px;
+        height: 50px;
         color: white;
         background: #452d8a;
       }
@@ -79,6 +79,7 @@ class VzProjectorApp extends PolymerElement {
           </a>
         </div>
       </div>
+      <div style="display:flex">
       <vz-projector
         route-prefix="[[routePrefix]]"
         serving-mode="[[servingMode]]"
@@ -87,12 +88,24 @@ class VzProjectorApp extends PolymerElement {
         event-logging="[[eventLogging]]"
       >
       </vz-projector>
+      <vz-projector
+        route-prefix="[[routePrefix]]"
+        is-contrast="[[isContrast]]"
+        serving-mode="[[servingMode]]"
+        projector-config-json-path="[[projectorConfigJsonPath]]"
+        page-view-logging="[[pageViewLogging]]"
+        event-logging="[[eventLogging]]"
+      >
+      </vz-projector>
     </div>
+  </div>
   `;
   @property({type: Boolean})
   pageViewLogging: boolean = false;
   @property({type: Boolean})
   eventLogging: boolean = false;
+  @property({type: Boolean})
+  isContrast:boolean = true
   @property({type: String})
   projectorConfigJsonPath: string = '';
   @property({type: String})
@@ -105,6 +118,6 @@ class VzProjectorApp extends PolymerElement {
   bugReportLink: string = '';
 
   @property({type: String})
-  title:string = `Deep Debugger | task: ${window.sessionStorage.taskType==='active learning'?'Sample Selection':'Fault Localization'}`
+  title:string = `Deep Debugger`
  
 }

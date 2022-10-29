@@ -440,7 +440,7 @@ export class DataSet {
 
   /** Runs DVI on the data. */
   async projectDVI(
-    iteration: number, predicates: { [key: string]: any },
+    iteration: number, predicates: { [key: string]: any },isContrast:boolean,
     stepCallback: (iter: number | null, evaluation: any, newSelection: any[], filterIndices: number[], totalIter?: number) => void
   ) {
     this.projections['tsne'] = true;
@@ -471,8 +471,10 @@ export class DataSet {
       //     const ip_address = data.DVIServerIP + ":" + data.DVIServerPort;
       //     this.DVIServer = ip_address;
 
-      if (window.modelMath) {
-        this.DVIsubjectModelPath = window.modelMath
+      if (isContrast) {
+        this.DVIsubjectModelPath = '/home/yifan/dataset/noisy/pairflip/cifar10/20'
+      }else{
+        this.DVIsubjectModelPath = '/home/yifan/dataset/noisy/pairflip/cifar10/0'
       }
 
       window.iteration = iteration
@@ -688,7 +690,7 @@ export class DataSet {
           this.DVIfilterIndices.push(i);
         }
         this.DVIDataList[iteration] = this.points
-        window.DVIDataList = this.DVIDataList
+       
 
         stepCallback(this.tSNEIteration, evaluation, new_selection, filterIndices, this.tSNETotalIter);
       }).catch(error => {
@@ -1085,7 +1087,6 @@ export class DataSet {
           this.DVIDataList[i] = this.DVIDataList[i - 1]
         }
       }
-      window.DVIDataList = this.DVIDataList
       stepCallback(this.tSNEIteration, evaluation, new_selection, filterIndices, this.tSNETotalIter);
     }).catch(error => {
       logging.setErrorMessage('Error');

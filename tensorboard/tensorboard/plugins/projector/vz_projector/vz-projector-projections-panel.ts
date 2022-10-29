@@ -377,7 +377,7 @@ class ProjectionsPanel extends LegacyElementMixin(PolymerElement) {
         this.previousDVIButton.disabled = true;
       }
 
-      this.dataSet.projectDVI(this.dataSet.tSNEIteration - 1, this.projector.inspectorPanel.currentPredicate,
+      this.dataSet.projectDVI(this.dataSet.tSNEIteration - 1, this.projector.inspectorPanel.currentPredicate,false,
         (iteration: number | null, evaluation: any, new_selection: any[], indices: number[], totalIter?: number) => {
           /**
            * get filter index
@@ -417,7 +417,7 @@ class ProjectionsPanel extends LegacyElementMixin(PolymerElement) {
       this.nextDVIButton.disabled = true;
       this.previousDVIButton.disabled = true;
       this.jumpDVIButton.disabled = true;
-      this.dataSet.projectDVI(this.dataSet.tSNEIteration + 1, this.projector.inspectorPanel.currentPredicate,
+      this.dataSet.projectDVI(this.dataSet.tSNEIteration + 1, this.projector.inspectorPanel.currentPredicate,false,
         (iteration: number | null, evaluation: any, newSelection: any[], indices: number[], totalIter?: number) => {
           /**
            * get filter index
@@ -471,7 +471,7 @@ class ProjectionsPanel extends LegacyElementMixin(PolymerElement) {
         // logging.setModalMessage(null, msgId);
         return;
       }
-      this.jumpTo(this.iterationInput)
+      this.jumpTo(this.iterationInput,false)
     });
 
 
@@ -537,12 +537,13 @@ class ProjectionsPanel extends LegacyElementMixin(PolymerElement) {
     }
   }
 
-  jumpTo(iterationInput) {
+  jumpTo(iterationInput,isContrast) {
+    console.log('isContrast',isContrast)
     const msgId = logging.setModalMessage('loading...');
     this.jumpDVIButton.disabled = true;
     this.nextDVIButton.disabled = true;
     this.previousDVIButton.disabled = true;
-    this.dataSet.projectDVI(iterationInput, this.projector.inspectorPanel.currentPredicate,
+    this.dataSet.projectDVI(iterationInput, this.projector.inspectorPanel.currentPredicate,isContrast,
       (iteration: number | null, evaluation: any, newSelection: any[], indices: number[], totalIter?: number) => {
         /**
          * get filter index

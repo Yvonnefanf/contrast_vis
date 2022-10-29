@@ -20,7 +20,7 @@ from singleVis.visualizer import visualizer, DenseALvisualizer
 from singleVis.projector import Projector, ALProjector, DenseALProjector
 
 def initialize_backend(CONTENT_PATH, dense_al=False):
-
+    print("ioioi",CONTENT_PATH)
     from config import config
 
     # load hyperparameters

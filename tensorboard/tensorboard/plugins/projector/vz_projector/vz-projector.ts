@@ -137,6 +137,9 @@ class Projector
   @property({ type: String })
   routePrefix: string;
 
+  @property({type: Boolean})
+  isContrast: boolean
+
   @property({ type: String })
   dataProto: string;
 
@@ -324,12 +327,6 @@ class Projector
       return
     }
 
-    console.log('isOnly?',only)
-
-    
-
-    // document.body.append(svgDom)
-
     let headers = new Headers();
     await fetch(`http://${window.sessionStorage.ipAddress}/get_itertaion_structure?path=${window.modelMath}`, {
       method: 'POST',
@@ -508,12 +505,12 @@ class Projector
           c.style.cursor = "pointer"
           if(!only){
             c.addEventListener('click', (e: any) => {
-              if (e.target.nextSibling.innerHTML != window.iteration) {
+              // if (e.target.nextSibling.innerHTML != window.iteration) {
                 let value = e.target.nextSibling.innerHTML.split("|")[0]
-                that.projectionsPanel.jumpTo(Number(value))
+                that.projectionsPanel.jumpTo(Number(value),that.isContrast)
                 window.sessionStorage.setItem('acceptIndicates', "")
                 window.sessionStorage.setItem('rejectIndicates', "")
-              }
+              // }
             })
           }
         }
@@ -771,9 +768,9 @@ class Projector
       this.dataPanel.metadataChanged(spriteAndMetadata, metadataFile);
       //reset
       if (window.sessionStorage.iteration) {
-        this.projectionsPanel.jumpTo(Number(window.sessionStorage.iteration))
+        this.projectionsPanel.jumpTo(Number(window.sessionStorage.iteration),this.isContrast)
       } else {
-        this.projectionsPanel.jumpTo(Number(1))
+        this.projectionsPanel.jumpTo(Number(1),this.isContrast)
       }
       //reset
       if (window.sessionStorage.acceptIndicates) {

@@ -70,10 +70,13 @@ export const template = html`
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-width: 312px;
-        width: 312px;
+        position:absolute;
+        color:#fff;
+        top:120px;
+        background: rgba(0,0,0,0.6);
+        z-index: 99;
+        width: 200px;
         border-right: 1px solid rgba(0, 0, 0, 0.1);
-        background: #fafafa;
       }
 
       #right-pane {
@@ -81,8 +84,8 @@ export const template = html`
         background: #fafafa;
         display: flex;
         height: 100%;
-        min-width: 300px;
-        width: 360px;
+        width: 0px;
+        visibility:hidden;
       }
 
       .file-name {
@@ -283,8 +286,8 @@ export const template = html`
       </div>
     </paper-dialog>
     <div id="container" style="height:calc(100vh - 130px)">
-      <div style="width:100%; overflow:auto; position: absolute;background: #f2f2f2;bottom: 0;z-index:99;">
-      <svg style="width="100%" height="130" id="mysvggg"></svg>
+      <div style="width:50%; overflow:auto; position: absolute;background: #f2f2f2;bottom: 0;z-index:99;">
+      <svg style="width="100%" height="100px" id="mysvggg"></svg>
       </div>
       <div id="left-pane" class="ink-panel">
         <vz-projector-data-panel id="data-panel"></vz-projector-data-panel>
