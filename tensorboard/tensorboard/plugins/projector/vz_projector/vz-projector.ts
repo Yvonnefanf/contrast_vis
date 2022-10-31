@@ -45,6 +45,7 @@ declare global {
     alSuggestLabelList: any,
     alSuggestScoreList: any,
     previousHover: number,
+    currentHover: number,
 
     allResPositions: any,
     modelMath: string,
@@ -139,6 +140,9 @@ class Projector
 
   @property({type: Boolean})
   isContrast: boolean
+
+  @property({type: Number})
+  currentHoverIndex: number
 
   @property({ type: String })
   dataProto: string;
@@ -338,7 +342,7 @@ class Projector
         if(only){
           res.structure = [{value:only,name:only,pid:""}]
         }
-        res.structure.length = window.selectedTotalEpoch
+        // res.structure.length = window.selectedTotalEpoch
         window.treejson = res.structure
 
         let data = res.structure
@@ -1241,13 +1245,18 @@ class Projector
   notifyHoverOverPoint(pointIndex: number) {
     this.hoverListeners.forEach((l) => l(pointIndex));
     let timeNow = new Date().getTime()
-    if (this.timer === null || timeNow - this.timer > 10) {
-      if (window.iteration && pointIndex !== undefined && pointIndex !== null && window.previousHover !== pointIndex) {
-        this.timer = timeNow
-        this.updateMetaByIndices(pointIndex)
-        window.previousHover = pointIndex
-      }
+    // console.log('hovering',pointIndex)
+    if(pointIndex !== undefined){
+      window.currentHover = pointIndex
     }
+    
+    // if (this.timer === null || timeNow - this.timer > 10) {
+      if (window.iteration && pointIndex !== undefined && pointIndex !== null && window.previousHover !== pointIndex) {
+    //     this.timer = timeNow
+        this.updateMetaByIndices(pointIndex)
+    //     window.previousHover = pointIndex
+      }
+    // }
   }
   registerProjectionChangedListener(listener: ProjectionChangedListener) {
     this.projectionChangedListeners.push(listener);

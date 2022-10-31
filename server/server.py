@@ -93,7 +93,7 @@ def sprite_image():
     CONTENT_PATH = os.path.normpath(path)
     print('index', index)
     idx = int(index)
-    pic_save_dir_path = os.path.join(CONTENT_PATH, "sprites", "{}.png".format(idx))
+    pic_save_dir_path = os.path.join('/home/yifan/dataset/noisy/20', "sprites", "{}.png".format(idx))
     img_stream = ''
     with open(pic_save_dir_path, 'rb') as img_f:
         img_stream = img_f.read()
@@ -160,33 +160,34 @@ def al_query():
 @app.route('/anomaly_query', methods=["POST"])
 @cross_origin()
 def anomaly_query():
-    data = request.get_json()
-    CONTENT_PATH = os.path.normpath(data['content_path'])
-    budget = int(data["budget"])
-    strategy = data["strategy"]
-    acc_idxs = data["accIndices"]
-    rej_idxs = data["rejIndices"]
-    user_name = data["username"]
-    isRecommend = data["isRecommend"]
+    # data = request.get_json()
+    # CONTENT_PATH = os.path.normpath(data['content_path'])
+    # budget = int(data["budget"]) 
+    # strategy = data["strategy"]
+    # acc_idxs = data["accIndices"]
+    # rej_idxs = data["rejIndices"]
+    # user_name = data["username"]
+    # isRecommend = data["isRecommend"]
 
-    sys.path.append(CONTENT_PATH)
+    # sys.path.append(CONTENT_PATH)
 
-    timevis = initialize_backend(CONTENT_PATH)
-    timevis.save_acc_and_rej(acc_idxs, rej_idxs, user_name)
-    indices, scores, labels = timevis.suggest_abnormal(strategy, np.array(acc_idxs).astype(np.int64), np.array(rej_idxs).astype(np.int64), budget)
-    clean_list,_ = timevis.suggest_normal(strategy, np.array(acc_idxs).astype(np.int64), np.array(rej_idxs).astype(np.int64), 1)
+    # timevis = initialize_backend(CONTENT_PATH)
+    # timevis.save_acc_and_rej(acc_idxs, rej_idxs, user_name)
+    # indices, scores, labels = timevis.suggest_abnormal(strategy, np.array(acc_idxs).astype(np.int64), np.array(rej_idxs).astype(np.int64), budget)
+    # clean_list,_ = timevis.suggest_normal(strategy, np.array(acc_idxs).astype(np.int64), np.array(rej_idxs).astype(np.int64), 1)
 
-    sort_i = np.argsort(-scores)
-    indices = indices[sort_i]
-    labels = labels[sort_i]
-    scores = scores[sort_i]
+    # sort_i = np.argsort(-scores)
+    # indices = indices[sort_i]
+    # labels = labels[sort_i]
+    # scores = scores[sort_i]
 
-    sys.path.remove(CONTENT_PATH)
-    if not isRecommend: 
-        add_line(API_result_path,['Feedback', user_name]) 
-    else:
-        add_line(API_result_path,['Recommend', user_name])
-    return make_response(jsonify({"selectedPoints": indices.tolist(), "scores": scores.tolist(), "suggestLabels":labels.tolist(),"cleanList":clean_list.tolist()}), 200)
+    # sys.path.remove(CONTENT_PATH)
+    # if not isRecommend: 
+    #     add_line(API_result_path,['Feedback', user_name]) 
+    # else:
+    #     add_line(API_result_path,['Recommend', user_name])
+    indices = [234,556,778,44,4345,5564,345,3453,435,7788]
+    return make_response(jsonify({"selectedPoints": [234,556,778,44,4345,5564,345,3453,435,7788], "scores": [0.6,0.5,0.7,0.8,0.56,0.5,0.8,0.56,0.5,0.76], "suggestLabels":[1,2,1,1,1,1,1,1,1,1],"cleanList":[1,2,3]}), 200)
 
 @app.route('/al_train', methods=["POST"])
 @cross_origin()
@@ -289,7 +290,7 @@ def login():
     if username == 'admin' and password == '123qwe': 
         # con_paths = {"normal_content_path": active_learning_path,"unormaly_content_path":noisy_detection_path}
         # clear_cache(con_paths)
-        return make_response(jsonify({"normal_content_path": "/home/yifan/dataset/noisy/20", "unormaly_content_path": "/home/yifan/dataset/resnet18_cifar10"}), 200)
+        return make_response(jsonify({"normal_content_path": "/home/yifan/dataset/noisy/pairflip/cifar10/0", "unormaly_content_path": "/home/yifan/dataset/noisy/pairflip/cifar10/0"}), 200)
     # elif username == 'admin-c' and password == '123qwe': 
     #     con_paths = {"normal_content_path": active_learning_path, "unormaly_content_path": noisy_detection_path}
     #     clear_cache(con_paths)
@@ -406,7 +407,7 @@ if __name__ == "__main__":
     #     config = json.load(f)
     #     ip_address = config["ServerIP"]
     #     port = config["ServerPort"]
-    port = 5000
+    port = 5001
     while check_port_inuse(port, ip_address):
         port = port + 1
     app.run(host=ip_address, port=int(port))

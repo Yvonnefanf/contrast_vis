@@ -465,17 +465,17 @@ export class DataSet {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');
-      // await fetch("standalone_projector_config.json", { method: 'GET' })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     const ip_address = data.DVIServerIP + ":" + data.DVIServerPort;
-      //     this.DVIServer = ip_address;
-
-      if (isContrast) {
-        this.DVIsubjectModelPath = '/home/yifan/dataset/noisy/pairflip/cifar10/20'
-      }else{
-        this.DVIsubjectModelPath = '/home/yifan/dataset/noisy/pairflip/cifar10/0'
-      }
+      await fetch("standalone_projector_config.json", { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+          const ip_address = data.DVIServerIP + ":" + data.DVIServerPort;
+          this.DVIServer = ip_address
+          if (isContrast) {
+            this.DVIsubjectModelPath = data.contrastDataPath
+          }else{
+            this.DVIsubjectModelPath = data.referenceDataPath
+          }
+        })
 
       window.iteration = iteration
       await fetch("http://" + this.DVIServer + "/updateProjection", {

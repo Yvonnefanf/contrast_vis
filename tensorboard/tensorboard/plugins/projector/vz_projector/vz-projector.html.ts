@@ -71,12 +71,13 @@ export const template = html`
         flex-direction: column;
         justify-content: space-between;
         position:absolute;
-        color:#fff;
-        top:120px;
-        background: rgba(0,0,0,0.6);
+        top:110px;
         z-index: 99;
         width: 200px;
-        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        background: rgba(255,255,255,0.7);
+        border: 1px solid #ccc;
+        height: unset;
       }
 
       #right-pane {
@@ -234,7 +235,7 @@ export const template = html`
       #help-3d-icon {
         position: absolute;
         top: 20px;
-        left: 20px;
+        right: 20px;
       }
 
       #help3dDialog .main {
@@ -285,13 +286,15 @@ export const template = html`
         >
       </div>
     </paper-dialog>
-    <div id="container" style="height:calc(100vh - 130px)">
-      <div style="width:50%; overflow:auto; position: absolute;background: #f2f2f2;bottom: 0;z-index:99;">
-      <svg style="width="100%" height="100px" id="mysvggg"></svg>
+    <div id="container" style="height:calc(100vh - 120px)">
+      <div style="width:50%; overflow:auto; overflow-y: hidden; position: absolute;bottom: 0;z-index:99;height:110px;">
+      <svg style="width="100%" height="100%" id="mysvggg"></svg>
       </div>
-      <div id="left-pane" class="ink-panel">
+      <div id="left-pane" class="">
         <vz-projector-data-panel id="data-panel"></vz-projector-data-panel>
         <vz-projector-projections-panel
+          is-contrast="[[isContrast]]"
+          style="height:unset;"
           id="projections-panel"
         ></vz-projector-projections-panel>
       </div>
@@ -419,6 +422,7 @@ export const template = html`
             <svg id="selector"></svg>
           </div>
           <vz-projector-metadata-card
+            is-contrast="[[isContrast]]"
             id="metadata-card"
             style="left: [[metadataStyle.left]]; top:[[metadataStyle.top]];"
           ></vz-projector-metadata-card>

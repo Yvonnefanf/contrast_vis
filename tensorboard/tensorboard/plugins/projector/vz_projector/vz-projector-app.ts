@@ -81,17 +81,22 @@ class VzProjectorApp extends PolymerElement {
       </div>
       <div style="display:flex">
       <vz-projector
+        id="reference-projector"
+        is-contrast="[[isRef]]"
         route-prefix="[[routePrefix]]"
         serving-mode="[[servingMode]]"
+        currentHoverIndex="[[currentHoverIndex]]"
         projector-config-json-path="[[projectorConfigJsonPath]]"
         page-view-logging="[[pageViewLogging]]"
         event-logging="[[eventLogging]]"
       >
       </vz-projector>
       <vz-projector
+        id="constract-projector"
         route-prefix="[[routePrefix]]"
         is-contrast="[[isContrast]]"
         serving-mode="[[servingMode]]"
+        currentHoverIndex="[[currentHoverIndex]]"
         projector-config-json-path="[[projectorConfigJsonPath]]"
         page-view-logging="[[pageViewLogging]]"
         event-logging="[[eventLogging]]"
@@ -106,6 +111,8 @@ class VzProjectorApp extends PolymerElement {
   eventLogging: boolean = false;
   @property({type: Boolean})
   isContrast:boolean = true
+  @property({type: Boolean})
+  isRef:boolean = false
   @property({type: String})
   projectorConfigJsonPath: string = '';
   @property({type: String})
@@ -116,8 +123,26 @@ class VzProjectorApp extends PolymerElement {
   documentationLink: string = '';
   @property({type: String})
   bugReportLink: string = '';
+  @property({type: Number})
+  currentHoverIndex:number
 
   @property({type: String})
   title:string = `Deep Debugger`
- 
+
+  
+  async ready() {
+    super.ready();
+    console.log('readdddyyyy')
+    let bodyDom:any = document.getElementsByTagName('body')
+    bodyDom[0].addEventListener('mousemove', this.onMouseMove.bind(this));
+  }
+
+  onMouseMove(){
+    this.currentHoverIndex = window.currentHover
+    let referenceProjector = this.$['reference-projector'] as any; 
+    let constractProjector = this.$['constract-projector'] as any; 
+    constractProjector.notifyHoverOverPoint(this.currentHoverIndex)
+    referenceProjector.notifyHoverOverPoint(this.currentHoverIndex)
+
+  }
 }

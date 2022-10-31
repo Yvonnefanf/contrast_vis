@@ -30,7 +30,7 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
         background-color: rgba(255, 255, 255, 0.9);
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
           0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-        width: 330px;
+        width: 130px;
       }
 
       #header {
@@ -103,26 +103,13 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
 
     <template is="dom-if" if="[[hasMetadata]]">
       <div id="metadata-card">
-        <div id="icon-container">
-          <paper-icon-button
-            icon="[[collapseIcon]]"
-            on-tap="_toggleMetadataContainer"
-          >
-          </paper-icon-button>
-        </div>
-        <div id="header">
-          <div id="metadata-label">Current Hover Detail</div>
-        </div>
-        <iron-collapse id="metadata-container" opened>
+        <template is="dom-if" if="[[!isContrast]]">Reference</template>
+        <template is="dom-if" if="[[isContrast]]">Contrast</template>
         <template is="dom-if" if="[[!showImg]]">No Hover Data</template>
         <template is="dom-if" if="[[showImg]]">
           <div id="metadata-table">
             <template is="dom-repeat" items="[[metadata]]">
               <div class="metadata-row">
-                <div>
-                <div class="metadata-key">index</div>
-                <div class="metadata-value">[[item.index]]</div>
-                </div>
                 <div>
                 <div class="metadata-key">[[item.key]]</div>
                 <div class="metadata-value">[[item.value]]</div>
@@ -131,12 +118,6 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
                 <div class="metadata-key">prediction</div>
                 <div class="metadata-value">[[item.prediction]]</div>
                 </div>
-                <!--<template is="dom-if" if="[[item.possibelWroung]]">
-                <div id="tips-warn" style="position: absolute;right: 10px;top: 50px;" class="meta-tips">❗️</div>
-                <paper-tooltip animation-delay="0" for="tips-warn"
-                >disagreement between prediction and pseudo label
-                </paper-tooltip>
-                </template>-->
                 <template is="dom-if" if="[[item.isSelected]]">
                 <div id="tips-warn" style="position: absolute;right: 10px;top: 80px;" class="meta-tips">☑️selected</div>
                 <paper-tooltip animation-delay="0" for="tips-warn"
@@ -152,48 +133,11 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
           </div>
           </template>
         </template>
-          <div class="custom-list-header">selected list | [[selectedNum]]<br/>
-          <span style="display:inline-block;width:150px;">Interest([[interestNum]])</span><span>Not Interest([[notInterestNum]])</span>
+         
           </div>
-          <!--<div class="metadata-row">
-          <div class="metadata-key" style="padding-left: 15px;">| img |</div>
-          <div class="metadata-key">index |</div>
-          <div class="metadata-key" style="width: 40px;text-align: right;">label |</div>
-          <div class="metadata-key">predict |</div>
-          <div class="metadata-key">operation |</div>
-          </div>-->
+         
           <div style="max-height: calc(100vh - 440px);overflow: auto; padding: 0 15px;">
-          <div style="display:flex;">
-          <div style="width:150px;">
-         Interest
-          <template is="dom-repeat" items="[[customMetadata]]">
-          <div class="metadata-row custom-list-Row" id=[[item.key]]>
-            <div style="text-align: center;display: inline-block;position: absolute;left: -16px;" class="metadata-value">[[item.flag]]</div>
-            <img src="[[item.src]]" />
-            <div class="metadata-key" style="width:40px;">[[item.key]]</div>
-            <!--<div class="metadata-value" style="width:40px;">[[item.value]]</div>-->
-            <div class="metadata-value">[[item.prediction]]</div>
-            <button class="remove-btn" id="[[item.key]]" on-click="removeacceptSelItem">✖️</button>
-          </div>
-          </div>
-        </template>
-        </div>
-        <div style="width:150px;">
-        Not Interest
-        <template is="dom-repeat" items="[[rejectMetadata]]">
-        <div class="metadata-row custom-list-Row" id=[[item.key]]>
-          <div style="text-align: center;display: inline-block;position: absolute;left: -16px;" class="metadata-value">[[item.flag]]</div>
-          <img src="[[item.src]]" />
-          <div class="metadata-key" style="width:40px;">[[item.key]]</div>
-          <!--<div class="metadata-value" style="width:40px;">[[item.value]]</div>-->
-          <div class="metadata-value">[[item.prediction]]</div>
-          <button class="remove-btn" id="[[item.key]]" on-click="removerejectSelItem">✖️</button>
-        </div>
-        </div>
-      </template>
-      </div>
-      </div>
-        </iron-collapse>
+          
       </div>
     </template>
   `;
@@ -219,6 +163,9 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
   @property({ type: String })
   collapseIcon: string = 'expand-less';
 
+  @property({type: Boolean})
+  isContrast: boolean
+
   @property({ type: Array })
   metadata: Array<{
     key: string;
@@ -243,6 +190,9 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
 
   @property({ type: String })
   label: string;
+
+  @property({ type: String})
+  cardTitle: string;
 
   private labelOption: string;
   private pointMetadata: PointMetadata;
@@ -372,9 +322,6 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
     window.customMetadata = metadata
     this.customMetadata = metadata;
 
-    setTimeout(() => {
-      this.addBtnListener()
-    }, 3000)
   }
 
   async updateRejectList(points: any, projectorEventContext?: ProjectorEventContext) {
@@ -450,22 +397,8 @@ class MetadataCard extends LegacyElementMixin(PolymerElement) {
     // window.customMetadata = metadata
     this.rejectMetadata = metadata;
 
-    setTimeout(() => {
-      this.addBtnListener()
-    }, 100)
   }
 
-  addBtnListener() {
-    const container = this.$$('#metadata-container') as any
-    let btns = container?.querySelectorAll('.custom-list-Row')
-    for (let i = 0; i < btns?.length; i++) {
-      let btn = btns[i];
-      btn.addEventListener('mouseenter', () => {
-        // console.log('enter',btn)
-        this.projectorEventContext?.notifyHoverOverPoint(Number(btn.id))
-      })
-    }
-  }
   removeCustomListItem(i: number) {
     this.customMetadata.splice(i, 1)
     window.customSelection.splice(i, 1)

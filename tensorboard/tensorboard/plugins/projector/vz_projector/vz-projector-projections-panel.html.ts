@@ -92,10 +92,6 @@ export const template = html`
     margin-top: 10px;
   }
 
-  .jump-dvi {
-    height: 36px;
-    margin-top: 16px;
-  }
 
   .dropdown-item {
     justify-content: space-between;
@@ -203,8 +199,22 @@ export const template = html`
     justify-content: space-between;
     margin-top: -20px;
   }
+  iron-input > input{
+    color:#fff!important;
+  }
+  .input-content ::slotted(label), .input-content ::slotted(.paper-input-label){
+    color:#fff;
+  }
 </style>
 <div id="main">
+<div id="icon-container">
+<paper-icon-button
+  icon="[[collapseIcon]]"
+  on-tap="_togglepanelContainer"
+>
+</paper-icon-button>
+</div>
+<iron-collapse id="metadata-container" opened>
   <div class="ink-panel-header" style="height:0">
     <div class="ink-tab-group" style="visibility:hidden;">
 
@@ -217,7 +227,7 @@ export const template = html`
 
     </div>
   </div>
-  <div class="container">
+  <div class="info-container">
     <div class="colorlabel-container">
       <!-- Label by -->
       <paper-dropdown-menu id="labelby" no-animations label="Label by">
@@ -290,26 +300,20 @@ export const template = html`
           on-input="subjectModelPathEditorInputChange">
         </paper-input>
       </div>
-      <div class="row" style="visibility:hidden;height:0;">
-        <button class="previous-dvi ink-button" title="Previous DVI">
-          Previous
-        </button>
-        <button class="next-dvi ink-button" title="Next DVI">
-          Next
-        </button>
-      </div>
-      <div class="row"> </div>
 
       <div class="row" style="height: 0px;visibility: hidden;">
         <div class="iteration-editor">
           <paper-input value="{{iterationEditorInput}}" label="Iteration" on-input="iterationEditorInputChange">
           </paper-input>
         </div>
-        <button class="jump-dvi ink-button" title="Jump DVI">Jump</button>
+       
       </div>
-      <div style="display:flex;justify-content: space-between;">
-        <p style="font-weight: 600;">Iteration: <span class="run-tsne-iter">0</span></p>
-        <p>Total iteration number: <span class="dvi-total-iter">0</span></p>
+      <div>
+        <p style="font-weight: 600;">current epoch: <span class="run-tsne-iter">0</span></p>
+        <p>Total epoch: <span class="dvi-total-iter">0</span></p>
+        <h3>Task Model Accuracy</h3>
+        Train Acc: <span class="total_acc_train">NA</span><br/>
+        Test Acc: <span class="total_acc_test">NA</span>
       </div>
 
       <div style="border-bottom:1px solid #666; height:0; visibility:hidden;">
@@ -377,9 +381,6 @@ export const template = html`
         </div>
 
       </template>
-      <h3>Task Model Accuracy</h3>
-      Train Acc: <span class="total_acc_train">NA</span><br/>
-      Test Acc: <span class="total_acc_test">NA</span>
     </div>
     <p id="tsne-sampling" class="notice">
     </p>
@@ -471,6 +472,7 @@ export const template = html`
     </div>
   </div>
 </div>
+</iron-collapse>
 </div>
 </template>
 <script src="vz-projector-projections-panel.js"></script>
