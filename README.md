@@ -42,13 +42,13 @@ check whether installation successful
 $ bazel --version
 ```
 
-### backend
+### Backend
 ```
 cd server
 python server.py
 ```
 
-### frontend
+### Frontend
 ```
 cd tensorboard
 bazel run tensorboard/plugins/projector/vz_projector:standalone
