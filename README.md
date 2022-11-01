@@ -6,9 +6,9 @@ cd server
 python server.py
 ```
 
-### front_end
-
+### frontend
 ```
 cd tensorboard
-
+bazel run tensorboard/plugins/projector/vz_projector:standalone
 ```
+Open http://localhost:6006/standalone.html
