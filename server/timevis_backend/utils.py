@@ -44,6 +44,8 @@ def initialize_backend(CONTENT_PATH, dense_al=False):
     RESOLUTION = config["VISUALIZATION"]["RESOLUTION"]
     EVALUATION_NAME = config["VISUALIZATION"]["EVALUATION_NAME"]
     NET = config["TRAINING"]["NET"]
+    if CONTENT_PATH == '/home/yifan/dataset/resnet34/pairflip/cifar10/0':
+        NET = 'resnet34'
 
     
 
