@@ -18,8 +18,8 @@
     }
   ],
   "modelCheckpointPath": "Demo datasets",
-  "referenceDataPath":"/home/yifan/dataset/noisy/pairflip/cifar10/0",
-  "contrastDataPath":"/home/yifan/dataset/resnet34/pairflip/cifar10/0",
+  "referenceDataPath":"/home/yifan/dataset/noisy/pairflip/cifar10/reference",
+  "contrastDataPath":"/home/yifan/dataset/noisy/pairflip/cifar10/0",
   "DVIServerIP": "172.26.191.173",
   "DVIServerPort": "5001"
 }
